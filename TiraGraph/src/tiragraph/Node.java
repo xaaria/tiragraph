@@ -35,10 +35,11 @@ public class Node {
     
     
     /**
+     * Returns euclidean distance between two points (>= 0.0)
      * @param n
      * @return double
      */
-    public double getCartesianDistance(Node n) {
+    public double getDistance(Node n) {
         return Math.sqrt( Math.pow(this.x-n.x,2)+ Math.pow(this.y-n.y,2) );
     }
     
@@ -47,5 +48,7 @@ public class Node {
     public String toString() {
        return String.format("  %s (%f, %f)", this.name, this.x, this.y);
     }
+    
+    
     
 }

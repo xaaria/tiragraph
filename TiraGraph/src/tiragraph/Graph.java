@@ -25,11 +25,19 @@ public class Graph {
         this.edges = edges;
     }
     
-    
+    /**
+     * Returns (reference to) container of nodes
+     * 
+     * @return Set<Node>
+     */
     public Set<Node> getNodes() {
         return this.nodes;
     }
     
+    /**
+     * Sets container of Edges
+     * @return Set<Edge>
+     */
     public Set<Edge> getEdges() {
         return this.edges;
     }
