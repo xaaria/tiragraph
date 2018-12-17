@@ -6,7 +6,7 @@ import java.util.HashSet;
 
 /**
  *
- * @author Okko
+ * @author OP
  */
 public class Run {
     
@@ -30,7 +30,14 @@ public class Run {
         g.getNodes().add( new Node("C", 4, 4) );
 
         System.out.println( g.getNodesAsString() );
-    
+        
+        //
+        Node a = new Node("A", 0, 0);
+        Node b = new Node("B", 0, 0);
+        Node x = new Node("X", 0, 0);
+        
+        System.out.println("A vs B " + a.compareTo(b));
+        System.out.println("B vs X " + a.compareTo(x));
     }
     
     
