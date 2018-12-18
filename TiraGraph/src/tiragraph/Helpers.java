@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.UUID;
 
 /**
@@ -16,7 +16,7 @@ public class Helpers {
     
     
     public static String getRandomString(int len) {
-        return UUID.randomUUID().toString().substring(0, len+1).toUpperCase();
+        return UUID.randomUUID().toString().substring(0, len).toUpperCase();
     }
     
     
@@ -25,10 +25,10 @@ public class Helpers {
     * Loads Nodes from text file and replaces.
     * TreeSet: Ordered Set
     */
-    public static HashSet<Node> getNodesFromFile(String filename) throws FileNotFoundException, IOException, Exception {
+    public static TreeSet<Node> getNodesFromFile(String filename) throws FileNotFoundException, IOException, Exception {
         
         //File file_ = null;
-        HashSet<Node> nodes = new HashSet<>(); // result
+        TreeSet<Node> nodes = new TreeSet<>(); // result
         BufferedReader br = new BufferedReader(new FileReader(filename));
      
         System.out.println(String.format("Reading Node data from '%s'",filename));
@@ -54,9 +54,9 @@ public class Helpers {
             
             // Create a Node object with given coordinates. Name will be random.
             // Add Node also to result set
-            Node n = new Node(Helpers.getRandomString(2), coords_[0], coords_[1]);
+            Node n = new Node(Helpers.getRandomString(3), coords_[0], coords_[1]);
             nodes.add(n);
-            System.out.println( String.format("Node object %s created ", n) );
+            System.out.println( String.format("Node %s created", n) );
         }
         // End of while() :: All nodes are in nodes -set
         System.out.println(String.format("Found %d Nodes", nodes.size() ) );

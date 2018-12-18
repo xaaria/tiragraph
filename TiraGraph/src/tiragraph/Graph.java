@@ -1,6 +1,9 @@
 package tiragraph;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -9,8 +12,8 @@ import java.util.Set;
 public class Graph {
     
     private String name;
-    private Set<Node> nodes;
-    private Set<Edge> edges;
+    private TreeSet<Node> nodes;
+    private TreeSet<Edge> edges;
     
     
     /**
@@ -19,10 +22,20 @@ public class Graph {
      * @param nodes
      * @param edges
      */
-    public Graph(String name, Set<Node> nodes, Set<Edge> edges) {
+    public Graph(String name, TreeSet<Node> nodes, TreeSet<Edge> edges) {
+        // name
         this.name = name;
+        
+        // nodes
         this.nodes = nodes;
+        
+        // eges
         this.edges = edges;
+    }
+    
+    
+    public String getName() {
+        return this.name;
     }
     
     /**
@@ -30,15 +43,15 @@ public class Graph {
      * 
      * @return Set<Node>
      */
-    public Set<Node> getNodes() {
+    public TreeSet<Node> getNodes() {
         return this.nodes;
     }
     
     /**
-     * Sets container of Edges
+     * Gets Edges
      * @return Set<Edge>
      */
-    public Set<Edge> getEdges() {
+    public TreeSet<Edge> getEdges() {
         return this.edges;
     }
     
@@ -54,9 +67,22 @@ public class Graph {
         return this.nodes.add(n);
     }
     
-    
+    /**
+     * Adds Edge (if not already) to the Graph. Nodes must also be included to 
+     * Graphs storage
+     */
     public boolean addEdge(Edge e) {
-        return this.edges.add(e);
+        
+        boolean alr = this.getEdges().add(e); // Add Edge e to Graphs storage, if not already
+        
+        // Each Node must be part of graph's Node storage
+        for(Node n: e.getNodes() ) {
+            if(this.addNode(n)) {
+                System.out.println(String.format("Added %s to Graph while adding an Edge. Node was not part of Graph.", n) );
+            }
+        }
+        
+        return alr; // returns was Edge e already included
     }
     
     
@@ -80,7 +106,11 @@ public class Graph {
     
     @Override
     public String toString() {
-        return "Graph "+this.name+" as a string:";
+        return String.format("===\nGraph name: '%s'\n- %d Nodes\n- %d Edges\n===", 
+            this.getName(), 
+            this.getNodes().size(), 
+            this.getEdges().size()
+        );
     }
     
     

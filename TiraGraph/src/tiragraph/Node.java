@@ -1,6 +1,7 @@
 package tiragraph;
 
-import java.util.Comparator;
+import java.util.TreeSet;
+
 
 /**
  *
@@ -14,11 +15,16 @@ public class Node
     private double x;
     private double y;
     
+    // Orderes set of Nodes. Starts from the nearest Node
+    // If same distance, smaller key (Node.key) is considered to be the nearest.
+    private TreeSet<Node> nearestNeighbours;
+    
     
     public Node(String key, double x, double y) {
         this.key = key;
         this.x = x;
         this.y = y;
+        this.nearestNeighbours = new TreeSet<Node>();
     }
     
     
@@ -54,6 +60,16 @@ public class Node
     }
     
     
+    
+    public boolean addNearestNeighbour(Node n) {
+        if(this == n || this.equals(n)) { return false; }
+        return this.nearestNeighbours.add(n);
+    }
+    
+    
+    
+    
+    
     @Override
     public String toString() {
        return String.format("%s (%f, %f)", this.key, this.x, this.y);
@@ -72,8 +88,27 @@ public class Node
      */
     @Override
     public int compareTo(Node o) {
+        // Alphabetical ordering
         return this.getKey().compareTo(o.getKey());
     }
+    
+    /**
+     * Nodes are considered to be the same if they have the same KEY attribute (name, identifier).
+     * @param o
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) { return true; }
+        
+        if(o instanceof Node) {
+            // ???
+            return (((Node) o).getKey() == null ? this.getKey() == null : ((Node) o).getKey().equals(this.getKey()));
+        }
+        
+        return false;
+    }
+    
     
     
     
