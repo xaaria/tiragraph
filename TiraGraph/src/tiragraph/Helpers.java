@@ -59,7 +59,7 @@ public class Helpers {
             System.out.println( String.format("Node %s created", n) );
         }
         // End of while() :: All nodes are in nodes -set
-        System.out.println(String.format("Found %d Nodes", nodes.size() ) );
+        System.out.println(String.format("Found %d Nodes. Function end\n---", nodes.size() ) );
         
         
         // Finally return set of Nodes

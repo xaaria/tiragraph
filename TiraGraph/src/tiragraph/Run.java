@@ -4,6 +4,7 @@ package tiragraph;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.TreeSet;
+import java.util.Vector;
 
 /**
  *
@@ -19,10 +20,10 @@ public class Run {
         this.nodeDataFile = nodeDataFile;
         
         
-        //Graph gtest = new Graph("G_Testi", Helpers.getNodesFromFile(this.nodeDataFile), new TreeSet<Edge>());
-        Graph gtest = new Graph("G_Testi", new TreeSet<Node>(), new TreeSet<Edge>());
+        Graph gtest = new Graph("G_Testi", Helpers.getNodesFromFile(this.nodeDataFile), new TreeSet<Edge>());
+        //Graph gtest = new Graph("G_Testi", new TreeSet<Node>(), new TreeSet<Edge>());
         
-        Node n1 = new Node("T1", 34, 100);
+        /*Node n1 = new Node("T1", 34, 100);
         Node n2 = new Node("T2", 34, 100);
         Node n3 = new Node("T3", 34, 100);
         
@@ -37,9 +38,14 @@ public class Run {
         gtest.addEdge(e0);
         gtest.addEdge(e1);
         gtest.addEdge(e2);
+        */
+        Node root = gtest.getNodes().first();
+        System.out.println(root + " >> " + gtest.findNearests(root, 1, new Vector<Node>()).toString() );
                 
         System.out.println("N " + gtest.getNodes().toString() ); 
         System.out.println("E " + gtest.getEdges().toString() );
+        
+        //gtest.updateNearestNodes();
         
         //System.out.println("1. kaaren pituus: " + gtest.getEdges().first().getLength() );
         

@@ -1,6 +1,8 @@
 package tiragraph;
 
+import java.util.Set;
 import java.util.TreeSet;
+import java.util.Vector;
 
 
 /**
@@ -15,16 +17,12 @@ public class Node
     private double x;
     private double y;
     
-    // Orderes set of Nodes. Starts from the nearest Node
-    // If same distance, smaller key (Node.key) is considered to be the nearest.
-    private TreeSet<Node> nearestNeighbours;
-    
+  
     
     public Node(String key, double x, double y) {
         this.key = key;
         this.x = x;
         this.y = y;
-        this.nearestNeighbours = new TreeSet<Node>();
     }
     
     
@@ -60,19 +58,11 @@ public class Node
     }
     
     
-    
-    public boolean addNearestNeighbour(Node n) {
-        if(this == n || this.equals(n)) { return false; }
-        return this.nearestNeighbours.add(n);
-    }
-    
-    
-    
-    
+   
     
     @Override
     public String toString() {
-       return String.format("%s (%f, %f)", this.key, this.x, this.y);
+       return String.format("%s (%.3f, %.3f)", this.key, this.x, this.y);
     }
 
     
