@@ -10,7 +10,7 @@ import java.util.Locale;
 public class TiraGraph {
     
     public static final String APP_NAME = "TiraGraph";
-    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "testdata2.txt";
+    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "Tdata.txt";
     
     /**
      * @param args the command line arguments

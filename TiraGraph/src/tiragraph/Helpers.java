@@ -1,9 +1,13 @@
 package tiragraph;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.TreeSet;
 import java.util.UUID;
 
@@ -56,7 +60,7 @@ public class Helpers {
             // Add Node also to result set
             Node n = new Node(Helpers.getRandomString(3), coords_[0], coords_[1]);
             nodes.add(n);
-            System.out.println( String.format("Node %s created", n) );
+            System.out.println( String.format("    Node %s created", n) );
         }
         // End of while() :: All nodes are in nodes -set
         System.out.println(String.format("Found %d Nodes. Function end\n---", nodes.size() ) );
@@ -64,6 +68,29 @@ public class Helpers {
         
         // Finally return set of Nodes
         return nodes;
+    }
+    
+    
+    
+    public static void outputBFS(ArrayList<Node> al) {
+    
+        if(al.isEmpty()) {
+            return;
+        }
+        
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("BFS.txt"));
+            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin ylimmästä solmusta\n---\n" , new Date()) );
+            for(Node n : al) {
+                bw.write( String.format("%s\n" , n.toString()) );
+            }
+            bw.close();
+            
+        } catch (IOException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+        
+        
     }
     
     

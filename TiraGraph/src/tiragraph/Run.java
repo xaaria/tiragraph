@@ -2,6 +2,7 @@
 package tiragraph;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.TreeSet;
 import java.util.Vector;
@@ -40,7 +41,15 @@ public class Run {
         gtest.addEdge(e2);
         */
         Node root = gtest.getNodes().first();
-        System.out.println(root + " >> " + gtest.findNearests(root, 1, new Vector<Node>()).toString() );
+        System.out.println(root + " >> " + gtest.findNearests(root, 10, new Vector<Node>()).toString() );
+        //
+        gtest.updateNearestsForEveryNode(5);
+        
+        // BFS TEST
+        ArrayList<Node> bfs = gtest.getBFS(root);
+        System.out.println("BFS: "+ bfs.toString() );
+        Helpers.outputBFS(bfs);
+        //
                 
         System.out.println("N " + gtest.getNodes().toString() ); 
         System.out.println("E " + gtest.getEdges().toString() );
