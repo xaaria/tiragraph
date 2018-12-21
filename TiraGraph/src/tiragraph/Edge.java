@@ -60,17 +60,11 @@ public class Edge implements Comparable<Edge> {
      * @param n2
      * @return lenght of the new Edge to N1 to N2 
     */
-    public double setNodes(Node n1, Node n2) {
-        
-        return 0;
-    }
+    /*public double setNodes(Node n1, Node n2) {
+        throw new ...
+    }*/
 
-    
-    
-    
-    
-    
-    
+
     
     
     @Override

@@ -1,0 +1,9 @@
+Fri Dec 21 14:35:19 EET 2018
+Leveyshaku (BFS) aloitetiin ylimmästä solmusta
+Solmuja löydettiin yhteensä 5 kpl
+---
+30761B (-5,000 | 5,000)
+B6D83D (0,000 | 5,000)
+70C77D (-5,000 | -5,000)
+C5A60F (5,000 | 5,000)
+73F6FB (5,000 | -5,000)

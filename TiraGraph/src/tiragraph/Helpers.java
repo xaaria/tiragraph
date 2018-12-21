@@ -24,15 +24,13 @@ public class Helpers {
     }
     
     
-    
     /**
     * Loads Nodes from text file and replaces.
     * TreeSet: Ordered Set
     */
     public static TreeSet<Node> getNodesFromFile(String filename) throws FileNotFoundException, IOException, Exception {
         
-        //File file_ = null;
-        TreeSet<Node> nodes = new TreeSet<>(); // result
+        TreeSet<Node> nodes = new TreeSet<>();               // result
         BufferedReader br = new BufferedReader(new FileReader(filename));
      
         System.out.println(String.format("Reading Node data from '%s'",filename));
@@ -41,26 +39,22 @@ public class Helpers {
         while((line = br.readLine()) != null) {
             
             String[] coords = line.split(",");
-            
-            // lolwut
             double[] coords_ = new double[2];
             
             try {
                 coords_[0] = Double.parseDouble(coords[0]);
                 coords_[1] = Double.parseDouble(coords[1]);
-            }
-            catch(NumberFormatException | NullPointerException ex) {
+            } catch(NumberFormatException | NullPointerException ex) {
                 throw new Exception("An Error occured while converting coordinates from string to numeric... " + ex);
             }
             
-            //System.out.println(coords.length);
             System.out.println( String.format("'%s' >> Found coordinates (x=%f, y=%f)", line, coords_[0], coords_[1]) );
             
             // Create a Node object with given coordinates. Name will be random.
             // Add Node also to result set
-            Node n = new Node(Helpers.getRandomString(3), coords_[0], coords_[1]);
-            nodes.add(n);
-            System.out.println( String.format("    Node %s created", n) );
+            Node n = new Node(Helpers.getRandomString(6), coords_[0], coords_[1]);
+            boolean wasAdded = nodes.add(n);
+            System.out.println( String.format("    Node %s created. Added: %b", n, wasAdded) );
         }
         // End of while() :: All nodes are in nodes -set
         System.out.println(String.format("Found %d Nodes. Function end\n---", nodes.size() ) );
@@ -74,17 +68,17 @@ public class Helpers {
     
     public static void outputBFS(ArrayList<Node> al) {
     
-        if(al.isEmpty()) {
-            return;
-        }
+        if(al.isEmpty()) { return; }
+        final String outputfile = "BFS.txt"; 
         
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("BFS.txt"));
-            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin ylimmästä solmusta\n---\n" , new Date()) );
+            BufferedWriter bw = new BufferedWriter(new FileWriter(outputfile));
+            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin ylimmästä solmusta\nSolmuja löydettiin yhteensä %d kpl\n---\n" , new Date(), al.size() ) );
             for(Node n : al) {
                 bw.write( String.format("%s\n" , n.toString()) );
             }
             bw.close();
+            System.out.println( String.format("Result output in: %s", outputfile) );
             
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);

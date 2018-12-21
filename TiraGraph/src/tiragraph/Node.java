@@ -1,10 +1,5 @@
 package tiragraph;
 
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.Vector;
-
-
 /**
  *
  * @author OP
@@ -20,13 +15,14 @@ public class Node
   
     
     public Node(String key, double x, double y) {
-        this.key = key;
+        this.setKey(key);
         this.x = x;
         this.y = y;
     }
     
     
     public void setKey(String k) {
+        if(k == null || k.length()==0) { throw new IllegalArgumentException(); }
         this.key = k;
     }
     public String getKey() {
@@ -62,7 +58,7 @@ public class Node
     
     @Override
     public String toString() {
-       return String.format("%s (%.3f, %.3f)", this.key, this.x, this.y);
+       return String.format("%s (%.3f | %.3f)", this.key, this.x, this.y);
     }
 
     

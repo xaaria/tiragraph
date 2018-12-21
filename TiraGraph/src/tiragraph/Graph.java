@@ -2,12 +2,8 @@ package tiragraph;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
@@ -43,10 +39,18 @@ public class Graph {
         this.nearests = new HashMap<>();
     }
     
-    
+    /**
+     * Getter for name
+     * 
+     * @return String
+     */
     public String getName() {
         return this.name;
     }
+    
+    public void setName(String n) {
+        this.name = n;
+    } 
     
     /**
      * Returns (reference to) container of nodes
@@ -58,11 +62,32 @@ public class Graph {
     }
     
     /**
+     * Setter for nodes
+     * 
+     * @param ns
+     * @return void
+     */
+    public void setNodes(TreeSet<Node> ns) {
+        this.nodes = ns;
+    }
+    
+    /**
      * Gets Edges
+     * 
      * @return Set<Edge>
      */
     public TreeSet<Edge> getEdges() {
         return this.edges;
+    }
+    
+    /**
+     * Setter for edges
+     * 
+     * @param es
+     * @return void
+     */
+    public void setEdges(TreeSet<Edge> es) {
+        this.edges = es;
     }
     
     
@@ -140,11 +165,12 @@ public class Graph {
         // Do not try to call more than possible
         if(amount > this.nodes.size()-1 ) {
             amount = this.nodes.size()-1;
-        } 
+        }
+        
+        double dist = Double.MAX_VALUE;
         
         if(amount >= 1) {
             
-            double dist = Double.MAX_VALUE;
             Node nearest = null;
            
             // Go through every Node, if not already in result Vector, calc. dist.
@@ -152,16 +178,13 @@ public class Graph {
             for(Node n : this.nodes) {
                 if(! nearests.contains(n) && n != root) {
                     
-                    // fix: if equal, lower key firs!
+                    // fix: if equal, lower key first!
                     if(root.getDistance(n) < dist) {
-                        //System.out.print("");
                         dist = root.getDistance(n);
                         nearest = n;
                     }
-                    
                 }
             }
-            
             
             nearests.add( nearest );
             return this.findNearests(root, amount-1, nearests);
@@ -178,17 +201,14 @@ public class Graph {
      * @return void
      */
     public void updateNearestsForEveryNode(int amount) {
-        if(amount <= 0) {
-            throw new InvalidParameterException("param amount <= 0");
-        }
+        if(amount <= 0) { throw new InvalidParameterException("param amount <= 0"); }
         
         /* Recalculate nearests for each Node */
         for(Node n : this.getNodes()) {
             
             if(!this.nearests.containsKey(n)) {
                 this.nearests.put(n, new Vector<>());
-            }
-            else {
+            } else {
                 this.nearests.get(n).clear();
             }
             this.nearests.get(n).addAll( this.findNearests(n, amount, new Vector<>()) );
@@ -200,49 +220,55 @@ public class Graph {
     
     
     /**
-     * Commits Breadth-First Seach -traversal and return the order as Vector.
+     * Commits Breadth-First Seach -traversal and returns discovered Nodes.
+     * Goes through every Node (in Queue) and each connection to the nearests Nodes 
+     * [Stored in this.nearests].
+     * If discovered Node is not already in result array, 
+     * add it to "level" Queue so it can be checked.
+     * <br>
+     * <br>
+     * This procedure will continue as long as there are Nodes to examine
+     * in Queue var. level.
+     * <br>
+     * <br>
+     * Firs Node in Queue is the root Node (start Node)
+     * <br>
+     * <br>
+     * Each found Node is added to the 'trav' variable that is returned at 
+     * the end.
      * 
-     * @param root Start BFS here
-     * @return Vector<Node> Result of BFS. Index 0 contains root.
+     * 
+     * 
+     * @param root Start BFS from this Node
+     * @return ArrayList<Node> Result of BFS. First element is root. Minimum size 1.
      */
     public ArrayList<Node> getBFS(Node root) {
     
-        ArrayList<Node> trav = new ArrayList<>();
-        LinkedList<Node> level = new LinkedList<>(); // Nodes from each level. Implements Java Queue
+        System.out.println("---\nStarting BFS-traversal. Root Node: " + root);
         
+        ArrayList<Node> trav = new ArrayList<>();       // Actual result
+        LinkedList<Node> level = new LinkedList<>();    // Nodes from each "level". Implements Java Queue
         trav.add(root);
         level.add(root);
-        
         // For each node in current level
-        // for (Iterator<String> iterator = list.iterator(); iterator.hasNext(); ) {
         while(!level.isEmpty()) {
-            System.out.println("-- Queue. Next Nodes to examine :: " + level.toString());
+            System.out.println("Upcoming Nodes to examine - Queue: " + level.toString());
             Node n = level.remove();
-            System.out.println( String.format("  In node %s", n) );
-            
-            // Create a new container for new Nodes
-            ArrayList<Node> tmp = new ArrayList<>(); // empty
-            // For every Node n, go trough every Edge and see if it's unexplored.
+            System.out.println( String.format("  [#] In node %s", n) );
+            // For every Node n, go trough every connection and see if it's unexplored.
             // Those "Edges" are stores in this.nearests
             for(Node nex : this.nearests.get(n)) {
-                System.out.println( String.format("  Check -> %s", nex) );
+                System.out.println( String.format("  Check # -> %s", nex) );
                 if(! trav.contains(nex) ) {
-                    tmp.add(nex);
+                    level.add(nex);
+                    trav.add(nex);
                     System.out.println("    NEW discovery!");
                 } else {
                      System.out.println("    Already discovered!");
                 }
             }
-            trav.addAll(tmp);
-            level.addAll(tmp); // add more stuff to go trough... Edges we just discovered!
-            
-            
-        
         }
-        System.out.println("BFS has nothing to explore. Finished!");
-        
-        
-        
+        System.out.println("BFS has nothing left to explore. Finished!");
         return trav;
     }
     
@@ -271,7 +297,9 @@ public class Graph {
     
     /**
      * Return Graph's Nodes as String
-     * @return 
+     * 
+     * 
+     * @return String
     */
     public String getNodesAsString() {
         
@@ -295,9 +323,6 @@ public class Graph {
         );
     }
 
-    
-    
-    
     
     
 }

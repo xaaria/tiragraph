@@ -10,13 +10,12 @@ import java.util.Locale;
 public class TiraGraph {
     
     public static final String APP_NAME = "TiraGraph";
-    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "Tdata.txt";
+    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "testdata2.txt";
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException, Exception {
-        // TODO code application logic here
         String fn;
         try {
             fn = args[0]; // If command line p. not given
@@ -28,10 +27,7 @@ public class TiraGraph {
         
         // Test_ Load nodes from file
         System.out.println(String.format("Welcome to %s\nLocale: %s", APP_NAME, Locale.getDefault() ));
-        Run run = new Run(fn);
-        
-        
-        
+        Run run = new Run(fn); 
     }
     
 
