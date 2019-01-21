@@ -1,6 +1,5 @@
 package tiragraph;
 
-import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -8,7 +7,7 @@ import java.util.TreeSet;
  *
  * @author OP
  */
-public class Edge implements Comparable<Edge> {
+public class NotUsed_Edge implements Comparable<NotUsed_Edge> {
     
     /* 
     - Not directed Edges (A to B == B to A)
@@ -20,7 +19,7 @@ public class Edge implements Comparable<Edge> {
      * Constructor for Efge.
      * NOTE: Node here does NOT automatically added to the Graph's storage!
      */
-    public Edge(Node n1, Node n2) throws Exception {
+    public NotUsed_Edge(Node n1, Node n2) throws Exception {
         
         this.nodes = new TreeSet<>();
         
@@ -47,7 +46,7 @@ public class Edge implements Comparable<Edge> {
     public boolean addNode(Node n) {
         if(this.getNodes().size() >= 2) {
             return false;
-            //throw new Exception("Edge already has two Nodes! Cannot add more!");
+            //throw new Exception("NotUsed_Edge already has two Nodes! Cannot add more!");
         }
         return this.getNodes().add(n);
         
@@ -58,7 +57,7 @@ public class Edge implements Comparable<Edge> {
      * When nodes change, lengt/dist. must also be updated!
      * @param n1
      * @param n2
-     * @return lenght of the new Edge to N1 to N2 
+     * @return lenght of the new NotUsed_Edge to N1 to N2 
     */
     /*public double setNodes(Node n1, Node n2) {
         throw new ...
@@ -85,8 +84,8 @@ public class Edge implements Comparable<Edge> {
         
         if (this == o) return true;
         
-        if(o instanceof Edge) {
-            // Does Edge o contain same nodes? .first() in set && .last() in set?
+        if(o instanceof NotUsed_Edge) {
+            // Does NotUsed_Edge o contain same nodes? .first() in set && .last() in set?
             return ( 
                 ((Set) o).contains( this.getNodes().first()) && 
                 ((Set) o).contains( this.getNodes().last()) 
@@ -102,12 +101,12 @@ public class Edge implements Comparable<Edge> {
     
     /**
      * Order between two Edges is defined by comparing Nodes they have.
-     * Edge's Nodes are ordered.
-     * See Node :: compareTo()
-     * (A,B) > (A,D) > (Z,Z) == (Z,Z)
+     * NotUsed_Edge's Nodes are ordered.
+ See Node :: compareTo()
+ (A,B) > (A,D) > (Z,Z) == (Z,Z)
      */
     @Override
-    public int compareTo(Edge o) {
+    public int compareTo(NotUsed_Edge o) {
         
         int comp = this.getNodes().first().compareTo( o.getNodes().first() );
         

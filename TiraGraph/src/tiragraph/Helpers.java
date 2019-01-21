@@ -73,7 +73,7 @@ public class Helpers {
         
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputfile));
-            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin ylimmästä solmusta\nSolmuja löydettiin yhteensä %d kpl\n---\n" , new Date(), al.size() ) );
+            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin listan ylimmästä solmusta (satunnainen) \nSolmuja löydettiin yhteensä %d kpl\n---\n" , new Date(), al.size() ) );
             for(Node n : al) {
                 bw.write( String.format("%s\n" , n.toString()) );
             }

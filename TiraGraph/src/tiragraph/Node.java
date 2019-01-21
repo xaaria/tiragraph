@@ -79,17 +79,18 @@ public class Node
     }
     
     /**
-     * Nodes are considered to be the same if they have the same KEY attribute (name, identifier).
-     * @param o
+     * Two Nodes are considered to be the same if 
+     * they have the same KEY attribute (name, identifier).
+     * 
+     * param o
      * @return boolean
      */
     @Override
     public boolean equals(Object o) {
-        if(this == o) { return true; }
+        if(this == o) { return true; } // points to itself. Always true
         
         if(o instanceof Node) {
-            // ???
-            return (((Node) o).getKey() == null ? this.getKey() == null : ((Node) o).getKey().equals(this.getKey()));
+            return ((Node) o).getKey().equals(this.getKey());
         }
         
         return false;

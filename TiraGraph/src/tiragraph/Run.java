@@ -19,10 +19,11 @@ public class Run {
     public Run(String nodeDataFile) throws IOException, Exception {
         this.nodeDataFile = nodeDataFile;
         
-        Graph gtest = new Graph("G_Testi", Helpers.getNodesFromFile(this.nodeDataFile), new TreeSet<Edge>());
+        Graph gtest = new Graph("G_Testi", Helpers.getNodesFromFile(this.nodeDataFile), new TreeSet<NotUsed_Edge>());
         
-        Node root = gtest.getNodes().first();
-        System.out.println(root + " >> " + gtest.findNearests(root, 10, new Vector<Node>()).toString() );
+        Node root = gtest.getNodes().first(); // pick psuedorandom root node
+        System.out.println( "root: " + root );
+        System.out.println( gtest.findNearests(root, 8, new Vector<Node>()).toString() );
         //
         gtest.updateNearestsForEveryNode(3);
         

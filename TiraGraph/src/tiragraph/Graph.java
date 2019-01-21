@@ -15,7 +15,7 @@ public class Graph {
     
     private String name;
     private TreeSet<Node> nodes;
-    private TreeSet<Edge> edges;
+    private TreeSet<NotUsed_Edge> edges;
     private HashMap<Node, Vector<Node>> nearests;
     
     
@@ -25,17 +25,10 @@ public class Graph {
      * @param nodes
      * @param edges
      */
-    public Graph(String name, TreeSet<Node> nodes, TreeSet<Edge> edges) {
-        // name
+    public Graph(String name, TreeSet<Node> nodes, TreeSet<NotUsed_Edge> edges) {
         this.name = name;
-        
-        // nodes
         this.nodes = nodes;
-        
-        // eges
         this.edges = edges;
-        
-        // nearest nodes
         this.nearests = new HashMap<>();
     }
     
@@ -49,6 +42,7 @@ public class Graph {
     }
     
     public void setName(String n) {
+        if(n == null || n.length() == 0) { throw new IllegalArgumentException(); } 
         this.name = n;
     } 
     
@@ -76,7 +70,7 @@ public class Graph {
      * 
      * @return Set<Edge>
      */
-    public TreeSet<Edge> getEdges() {
+    public TreeSet<NotUsed_Edge> getEdges() {
         return this.edges;
     }
     
@@ -86,7 +80,7 @@ public class Graph {
      * @param es
      * @return void
      */
-    public void setEdges(TreeSet<Edge> es) {
+    public void setEdges(TreeSet<NotUsed_Edge> es) {
         this.edges = es;
     }
     
@@ -101,20 +95,24 @@ public class Graph {
     public boolean addNode(Node n) {
         if(!this.nearests.containsKey(n)) {
             this.nearests.put(n, new Vector<>());
+            return true;
+        } else {
+            return this.nodes.add(n);
         }
-        return this.nodes.add(n);
     }
     
     /**
-     * Adds Edge (if not already) to the Graph. Nodes must also be included to 
+     * Adds NotUsed_Edge (if not already) to the Graph. Nodes must also be included to 
      * Graphs storage
+     * 
+     * Update (2019-01-21): Not used / should not be used
      * 
      * @param e
      * @return boolean
      */
-    public boolean addEdge(Edge e) {
+    public boolean addEdge(NotUsed_Edge e) {
         
-        boolean alr = this.getEdges().add(e); // Add Edge e to Graphs storage, if not already
+        boolean alr = this.getEdges().add(e); // Add NotUsed_Edge e to Graphs storage, if not already
         
         // Each Node must be part of graph's Node storage
         for(Node n: e.getNodes() ) {
@@ -123,7 +121,7 @@ public class Graph {
             }
         }
         
-        return alr; // returns was Edge e already included
+        return alr; // returns was NotUsed_Edge e already included
     }
 
     
@@ -139,7 +137,7 @@ public class Graph {
      * result.
      * <br>
      * <br>
-     * Methdo will go throug every node that is NOT in cloud or the same as root and
+     * Method will go through every node that is NOT in cloud or the same as root and
      * will calculate the dist. If distance is smallest know at that point, 
      * store it (Node) and dist for later use.
      * Finally add to "cloud" found Node with smallest cartesian distance and continue 
@@ -162,10 +160,13 @@ public class Graph {
      */
     public Vector<Node> findNearests(final Node root, int amount, Vector<Node> nearests) {
         
+        
         // Do not try to call more than possible
         if(amount > this.nodes.size()-1 ) {
             amount = this.nodes.size()-1;
         }
+        
+        System.out.println("[Find nearests] Nodes left: " + amount);
         
         double dist = Double.MAX_VALUE;
         
@@ -179,16 +180,40 @@ public class Graph {
                 if(! nearests.contains(n) && n != root) {
                     
                     // fix: if equal, lower key first!
+                        
                     if(root.getDistance(n) < dist) {
+                        // Current found new min dist is updated
                         dist = root.getDistance(n);
+
+                        // update 'nearest node' that is about to be added.
                         nearest = n;
                     }
+                    // Rare(?) edge case, distance exactly the same
+                    // If current node has smaller key, update nearests
+                    // that is about to be added. Otherwise keep current 'nearest'
+                    else if (root.getDistance(n) == dist) {
+                        System.out.println(String.format("[Finding nearest Node :: Equal dist.] (Cur. Node <> cur. nearest) :: %s <> %s (smaller key has higher priority)", n, nearest) );
+                        if( n.compareTo(nearest) == -1 ) {
+                            nearest = n;
+                            System.out.println(String.format(".... Cur. Found node had smaller key with same dist. Nearest changed to: %s", n) );
+                        } else {
+                            System.out.println(String.format(".... (Cur. Node) %s had larger key. Nearest Node not changed!", n) );
+                        }
+                    }
+                    // Else. distance to current Node is not LOE. Will not be added as
+                    // nearest node. Continue to next Node.
+                    else {
+                        // ...
+                    }
+                        
+                    
                 }
             }
             
             nearests.add( nearest );
             return this.findNearests(root, amount-1, nearests);
         }
+        
         return nearests; // do no add enything, just return at the 0 level
         
     }
