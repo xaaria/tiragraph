@@ -15,7 +15,6 @@ public class Graph {
     
     private String name;
     private TreeSet<Node> nodes;
-    private TreeSet<NotUsed_Edge> edges;
     private HashMap<Node, Vector<Node>> nearests;
     
     
@@ -25,10 +24,9 @@ public class Graph {
      * @param nodes
      * @param edges
      */
-    public Graph(String name, TreeSet<Node> nodes, TreeSet<NotUsed_Edge> edges) {
+    public Graph(String name, TreeSet<Node> nodes) {
         this.name = name;
         this.nodes = nodes;
-        this.edges = edges;
         this.nearests = new HashMap<>();
     }
     
@@ -66,24 +64,19 @@ public class Graph {
     }
     
     /**
-     * Gets Edges
-     * 
-     * @return Set<Edge>
+     * @param n 
+     * @return void
      */
-    public TreeSet<NotUsed_Edge> getEdges() {
-        return this.edges;
+    public void setNearests(HashMap<Node, Vector<Node>> n) {
+        this.nearests = n;
     }
     
     /**
-     * Setter for edges
-     * 
-     * @param es
-     * @return void
+     * @return HashMap
      */
-    public void setEdges(TreeSet<NotUsed_Edge> es) {
-        this.edges = es;
+    public HashMap getNearests() {
+        return this.nearests;
     }
-    
     
     
     /**
@@ -101,29 +94,6 @@ public class Graph {
         }
     }
     
-    /**
-     * Adds NotUsed_Edge (if not already) to the Graph. Nodes must also be included to 
-     * Graphs storage
-     * 
-     * Update (2019-01-21): Not used / should not be used
-     * 
-     * @param e
-     * @return boolean
-     */
-    public boolean addEdge(NotUsed_Edge e) {
-        
-        boolean alr = this.getEdges().add(e); // Add NotUsed_Edge e to Graphs storage, if not already
-        
-        // Each Node must be part of graph's Node storage
-        for(Node n: e.getNodes() ) {
-            if(this.addNode(n)) {
-                System.out.println(String.format("Added %s to Graph while adding an Edge. Node was not part of Graph.", n) );
-            }
-        }
-        
-        return alr; // returns was NotUsed_Edge e already included
-    }
-
     
    
     /**
@@ -275,11 +245,14 @@ public class Graph {
         LinkedList<Node> level = new LinkedList<>();    // Nodes from each "level". Implements Java Queue
         trav.add(root);
         level.add(root);
+        
         // For each node in current level
         while(!level.isEmpty()) {
+            
             System.out.println("Upcoming Nodes to examine - Queue: " + level.toString());
             Node n = level.remove();
             System.out.println( String.format("  [#] In node %s", n) );
+            
             // For every Node n, go trough every connection and see if it's unexplored.
             // Those "Edges" are stores in this.nearests
             for(Node nex : this.nearests.get(n)) {
@@ -293,29 +266,12 @@ public class Graph {
                 }
             }
         }
-        System.out.println("BFS has nothing left to explore. Finished!");
+        System.out.println("BFS-algrithm has nothing left to explore. Finished!");
         return trav;
     }
     
     
-    
-    /**
-     * Commits Depth-First Search -traversal. 
-     * Returns order of Nodes in Vector.
-     * 
-     * You may want to update this.nearests -storage before running this.
-     * 
-     */
-    /*public Vector<Node> getDFS() {
-    
-        
-        return;
-    }*/
-    
-    
-    
-    
-    
+  
     
     
     /* Helper methods */
@@ -340,10 +296,9 @@ public class Graph {
     
     @Override
     public String toString() {
-        return String.format("===\nGraph name: '%s'\n- %d Nodes\n- %d Edges\nNearest Nodes %s \n===", 
+        return String.format("===\nGraph name: '%s'\n- %d Nodes\nNearest Nodes %s \n===", 
             this.getName(), 
-            this.getNodes().size(), 
-            this.getEdges().size(),
+            this.getNodes().size(),
             this.nearests.toString()
         );
     }

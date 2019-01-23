@@ -10,7 +10,7 @@ import java.util.Locale;
 public class TiraGraph {
     
     public static final String APP_NAME = "TiraGraph";
-    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "testdata2.txt";
+    public static final String DEFAULT_NODE_DATA_SOURCE_FILE = "Tdata.txt"; //"gridtest3x3.txt";
     
     /**
      * @param args the command line arguments
@@ -24,9 +24,8 @@ public class TiraGraph {
             System.out.println(String.format("Given filename not found. Using default: '%s'.", fn) );
             
         }
-        
-        // Test_ Load nodes from file
-        System.out.println(String.format("Welcome to %s\nLocale: %s", APP_NAME, Locale.getDefault() ));
+
+        System.out.println(String.format("Welcome to %s\nLocale: %s\n", APP_NAME, Locale.getDefault() ));
         Run run = new Run(fn); 
     }
     

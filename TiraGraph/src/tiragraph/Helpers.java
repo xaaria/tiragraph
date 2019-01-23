@@ -18,8 +18,15 @@ import java.util.UUID;
 public class Helpers {
     
     
-    
+    /**
+     * Genereates a random uppercase string.
+     * Length between 6-10 should be enough.
+     * 
+     * @param len : lenght of the final string (actual len. is len-1)
+     */
     public static String getRandomString(int len) {
+        if(len < 5) { len = 5; }    // too small
+        if(len > 9) { len = 9; }    // too large
         return UUID.randomUUID().toString().substring(0, len).toUpperCase();
     }
     
@@ -65,20 +72,25 @@ public class Helpers {
     }
     
     
-    
+    /**
+    * Writes BFS's result to a textfile.
+    * Result is given as parameter as a list of nodes (ordered)
+    * 
+    * @param al
+    */
     public static void outputBFS(ArrayList<Node> al) {
     
-        if(al.isEmpty()) { return; }
+        if(al.isEmpty()) { return; } // any better way to handle this?
         final String outputfile = "BFS.txt"; 
         
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(outputfile));
-            bw.write( String.format("%s\nLeveyshaku (BFS) aloitetiin listan ylimmästä solmusta (satunnainen) \nSolmuja löydettiin yhteensä %d kpl\n---\n" , new Date(), al.size() ) );
+            bw.write( String.format("%s\nBreadth First Search (BFS) started from root node (uppermost) \nDiscovered Nodes %d \n---\n" , new Date(), al.size() ) );
             for(Node n : al) {
                 bw.write( String.format("%s\n" , n.toString()) );
             }
             bw.close();
-            System.out.println( String.format("Result output in: %s", outputfile) );
+            System.out.println( String.format("Result output in [old file overwritten (if such existed)]: %s", outputfile) );
             
         } catch (IOException e) {
             System.err.format("IOException: %s%n", e);
